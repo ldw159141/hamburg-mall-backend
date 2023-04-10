@@ -1,0 +1,17 @@
+server:
+  port: 8282
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/hamburgmall
+    username: root
+    password: root
+mybatis-plus:
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+  mapper-locations: com/ldw/mapper/xml/*.xml
+
+  mvc:
+    path match:
+      matching-strategy: ant_path_matcher
+
