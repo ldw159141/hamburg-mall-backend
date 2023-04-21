@@ -40,7 +40,7 @@ public class Main {
         autoGenerator.setPackageInfo(packageConfig);
         //配置策略
         StrategyConfig strategyConfig = new StrategyConfig();
-        strategyConfig.setInclude("goodsimg");
+        strategyConfig.setInclude("address","role","order","user");
         //StrategyConfig.setInclude("user","role")//部分表生成
         strategyConfig.setEntityLombokModel(true);
         strategyConfig.setNaming(NamingStrategy.underline_to_camel);
