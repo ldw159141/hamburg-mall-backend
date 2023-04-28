@@ -2,6 +2,7 @@ package com.ldw.util;
 
 
 
+import com.ldw.entity.User;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtBuilder;
 import io.jsonwebtoken.Jwts;
@@ -95,6 +96,18 @@ public class JwtUtils {
         map.put("sub", openId);
         return createJWT(map, TOKEN_EXPIRED_TIME);
     }
+    /**
+     * 根据user
+     */
+    public static String generateTokenByUser(User user) {
+        Map<String, Object> map = new HashMap<>();
+        map.put("id", user.getId());
+        map.put("username", user.getUsername());
+        map.put("password", user.getPassword());
+        map.put("roleId",user.getRoleId());
+        return createJWT(map, TOKEN_EXPIRED_TIME);
+    }
+
 
 
 }

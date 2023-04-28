@@ -39,8 +39,10 @@ public class GoodsimgServiceImpl extends ServiceImpl<GoodsimgMapper, Goodsimg> i
         for (Goods goods:goodsList){
             GoodsVO goodsVO =new GoodsVO();
             BeanUtils.copyProperties(goods, goodsVO);
-//            hotGoodsVO.setGoodsimg(this.goodsimgMapper.findUrl(goods.getId()));
-            goodsVO.setGoodsimg(this.goodsimgMapper.selectList(new QueryWrapper<Goodsimg>().eq("goods_id",goods.getId())));
+      //     goodsVO.setGoodsimg(this.goodsimgMapper.findUrl(goods.getId()));
+            
+
+           goodsVO.setGoodsimg(this.goodsimgMapper.selectList(new QueryWrapper<Goodsimg>().eq("goods_id",goods.getId())));
             goodsVOList.add(goodsVO);
         }
         ResultVO resultVO=new ResultVO<>();

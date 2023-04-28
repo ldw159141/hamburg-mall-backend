@@ -63,6 +63,27 @@ public class GoodsController {
     public ResultVO selectById(@PathVariable("id") Integer id){
         return ResultVOUtil.success(this.goodsService.getById(id));
     }
+    /**
+     * 测试功能successSetMsg和查询热卖商品mapper
+     * 功能未使用
+     * */
+    @GetMapping("/test")
+    public ResultVO test(){
+        ResultVO resultVO=new ResultVO<>();
+        resultVO.setMsg("成功了");
+        resultVO.setCode(200);
+        resultVO.setData(this.goodsimgService.HotGoodsList());
+        return resultVO;
+    }
+    /**
+     * 测试功能successSetMsg和查询热卖商品mapper2
+     * 功能未使用
+     * */
+    @GetMapping("/test2")
+    public ResultVO test2(){
+     return ResultVOUtil.successSetMsg(this.goodsimgService.HotGoodsList(),"成功返回数据",200);
+    }
+
 
 
 

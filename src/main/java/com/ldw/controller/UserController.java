@@ -1,9 +1,20 @@
 package com.ldw.controller;
 
 
-import org.springframework.web.bind.annotation.RequestMapping;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.ldw.common.Result;
+import com.ldw.dto.UserLoginDTO;
+import com.ldw.entity.User;
+import com.ldw.service.UserService;
+import com.ldw.util.JwtUtils;
+import com.ldw.util.ResultVOUtil;
+import com.ldw.vo.ResultVO;
+import io.swagger.annotations.Api;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.*;
 
-import org.springframework.stereotype.Controller;
+import java.util.HashMap;
 
 /**
  * <p>
@@ -13,9 +24,26 @@ import org.springframework.stereotype.Controller;
  * @author liudewei
  * @since 2023-04-21
  */
-@Controller
-@RequestMapping("//user")
+
+@RestController
+@Api(value = "登录模块",tags = "登录模块")
+@RequestMapping("/user")
 public class UserController {
 
+    /***
+     * 用户登录没写service
+     */
+
+    @Autowired
+    private UserService userService;
+    @ResponseBody
+    @PostMapping("/login")
+
+    public ResultVO login(@RequestBody UserLoginDTO user) {
+       return this.userService.login(user);
+    }
+
 }
+
+
 
