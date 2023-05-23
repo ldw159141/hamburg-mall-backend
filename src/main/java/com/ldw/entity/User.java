@@ -29,5 +29,9 @@ import lombok.EqualsAndHashCode;
 
     private Integer roleId;
 
+  private String name;
+  private String store;
+  private String address;
+  private String phone;
 
 }

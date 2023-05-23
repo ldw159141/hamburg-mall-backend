@@ -1,20 +1,17 @@
 package com.ldw.controller;
 
 
-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.ldw.common.Result;
 import com.ldw.dto.UserLoginDTO;
+import com.ldw.dto.UserQuery;
 import com.ldw.entity.User;
 import com.ldw.service.UserService;
-import com.ldw.util.JwtUtils;
-import com.ldw.util.ResultVOUtil;
 import com.ldw.vo.ResultVO;
 import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.HashMap;
+import java.util.List;
 
 /**
  * <p>
@@ -36,14 +33,61 @@ public class UserController {
 
     @Autowired
     private UserService userService;
+//    @Autowired
+//    private UserMapper userMapper;
     @ResponseBody
     @PostMapping("/login")
-
     public ResultVO login(@RequestBody UserLoginDTO user) {
        return this.userService.login(user);
     }
 
+    /**
+     * 查询列表，没使用
+     * @return
+     */
+    @GetMapping("/list")
+    public Result list(){
+        return Result.success(this.userService.list());
+    }
+
+    /**
+     * 用户分页模糊查询
+     * @param userQuery
+     * @return
+     */
+    @PostMapping("/page")
+    public Result findPage(@RequestBody UserQuery userQuery){
+        return Result.success( this.userService.page(userQuery));
+    }
+
+    /**
+     * 更新或者修改，判断条件id，
+     * 新增没有传id，修改有传id
+     * @param user
+     * @return
+     */
+    @PostMapping("/save")
+    public Result save(@RequestBody User user){
+        userService.saveOrUpdate(user);
+        return Result.success();
+    }
+
+    /**
+     * 根据ids批量删除
+     * @param ids
+     * @return
+     */
+    @PostMapping("/delete")
+    public Result delete(@RequestBody List<Integer> ids){
+       //userMapper.deleteBatchIds(ids);
+        userService.removeByIds(ids);
+        return Result.success();
+    }
+
+
+
 }
+
 
 
 

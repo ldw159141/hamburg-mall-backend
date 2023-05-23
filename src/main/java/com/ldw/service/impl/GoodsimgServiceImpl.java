@@ -32,6 +32,10 @@ public class GoodsimgServiceImpl extends ServiceImpl<GoodsimgMapper, Goodsimg> i
     @Autowired
     private GoodsimgMapper goodsimgMapper;
 
+    /**
+     * 热卖商品图
+      * @return
+     */
     @Override
     public ResultVO HotGoodsList() {
         List<Goods> goodsList = this.goodsMapper.selectList(new QueryWrapper<Goods>().eq("type_id", 1));
@@ -51,6 +55,11 @@ public class GoodsimgServiceImpl extends ServiceImpl<GoodsimgMapper, Goodsimg> i
         return resultVO;
     }
 
+    /**
+     * 商品图
+     * @return
+     */
+
     @Override
     public ResultVO GoodsList() {
         List<Goods> goodsList = this.goodsMapper.selectList(new QueryWrapper<Goods>().eq("type_id", 3));
@@ -67,4 +76,28 @@ public class GoodsimgServiceImpl extends ServiceImpl<GoodsimgMapper, Goodsimg> i
 
         return resultVO;
     }
+
+    /**
+     * 将Goodsimg对象中的url循环放入列表中
+     * @return
+     */
+    @Override
+    public ResultVO newGoodsList() {
+        List<Goods> goodsList = this.goodsMapper.selectList(new QueryWrapper<Goods>().eq("type_id", 3));
+        List<GoodsVO> goodsVOList =new ArrayList<>();
+        for (Goods goods:goodsList){
+            GoodsVO goodsVO =new GoodsVO();
+            BeanUtils.copyProperties(goods, goodsVO);
+
+          List<Goodsimg> list= this.goodsimgMapper.selectList(new QueryWrapper<Goodsimg>().eq("goods_id",goods.getId()));
+
+           goodsVO.setGoodsimg(list);
+            goodsVOList.add(goodsVO);
+        }
+        ResultVO resultVO=new ResultVO<>();
+        resultVO.setData(goodsVOList);
+
+        return resultVO;
+    }
+
 }

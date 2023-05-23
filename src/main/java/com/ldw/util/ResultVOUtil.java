@@ -28,9 +28,9 @@ public class ResultVOUtil {
         resultVO.setData(object);
         return resultVO;
     }
-    public static ResultVO failSetMsg(String msg){
+    public static ResultVO failSetMsg(String msg,Integer code){
         ResultVO resultVO = new ResultVO();
-        resultVO.setCode(-1);
+        resultVO.setCode(code);
         resultVO.setMsg(msg);
         return resultVO;
     }

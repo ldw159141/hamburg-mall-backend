@@ -1,8 +1,11 @@
 package com.ldw.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import java.io.Serializable;
+
+import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -26,7 +29,8 @@ import lombok.EqualsAndHashCode;
       /**
      * 收货人
      */
-      private String name;
+
+    private String name;
 
       /**
      * 市

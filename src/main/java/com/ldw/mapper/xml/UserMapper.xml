@@ -2,4 +2,8 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.ldw.mapper.UserMapper">
 
+    <insert id="insertUser" useGeneratedKeys="true" keyProperty="id">
+        insert into user(id, name)
+        values(#{id}, #{name})
+    </insert>
 </mapper>

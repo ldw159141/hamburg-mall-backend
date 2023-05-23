@@ -21,4 +21,6 @@ public interface GoodsimgService extends IService<Goodsimg> {
 
     public ResultVO GoodsList();
 
+    public ResultVO newGoodsList();
+
 }
