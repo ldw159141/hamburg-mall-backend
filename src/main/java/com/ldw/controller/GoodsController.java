@@ -63,7 +63,7 @@ public class GoodsController {
 
     /**
      * 根据id查找热门商品信息列表，不带图片列表
-     * 功能未使用
+     * 功能未使用..
      * */
     @GetMapping("/selectById/{id}")
     public ResultVO selectById(@PathVariable("id") Integer id){
