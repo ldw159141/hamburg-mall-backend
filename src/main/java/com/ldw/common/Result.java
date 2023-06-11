@@ -28,6 +28,6 @@ public class Result<T> {
         return new Result(code,msg,null);
     }
     public static Result error(){
-        return new Result(500,"系统错误,请联系管理员",null);
+        return new Result(500,"系统错误,请联系管理员15914165802",null);
     }
 }

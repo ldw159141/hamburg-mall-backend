@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.ldw.mapper.GoodsimgMapper">
 <!--可以返回HotGoodsVO对象类型仅url，不是我要的列表类型-->
-    <select id="findUrl" resultType="List">
+    <select id="findUrl" resultType="com.ldw.entity.Goodsimg">
         select url from goodsimg where goods_id=#{id}
     </select>
 </mapper>

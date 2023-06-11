@@ -6,9 +6,11 @@ import com.ldw.dto.UserLoginDTO;
 import com.ldw.dto.UserQuery;
 import com.ldw.entity.User;
 import com.ldw.service.UserService;
+import com.ldw.util.RedisUtil;
 import com.ldw.vo.ResultVO;
 import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -35,6 +37,10 @@ public class UserController {
     private UserService userService;
 //    @Autowired
 //    private UserMapper userMapper;
+    @Autowired
+    private RedisTemplate redisTemplate;
+    @Autowired
+    private RedisUtil redisUtil;
     @ResponseBody
     @PostMapping("/login")
     public ResultVO login(@RequestBody UserLoginDTO user) {
@@ -69,6 +75,8 @@ public class UserController {
     @PostMapping("/save")
     public Result save(@RequestBody User user){
         userService.saveOrUpdate(user);
+      //  redisTemplate.opsForValue().set("user_"+user.getId(),user);
+        redisUtil.set("user_"+user.getId(),user);
         return Result.success();
     }
 
@@ -78,9 +86,15 @@ public class UserController {
      * @return
      */
     @PostMapping("/delete")
-    public Result delete(@RequestBody List<Integer> ids){
-       //userMapper.deleteBatchIds(ids);
+    public  Result delete(@RequestBody List<Integer> ids){
+
+        for (Integer id:ids){
+         //   redisTemplate.delete("user_"+id);
+            redisUtil.delete("user_"+id);
+            System.out.println(id);
+        }
         userService.removeByIds(ids);
+
         return Result.success();
     }
 

@@ -2,21 +2,22 @@ package com.ldw.controller;
 
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.ldw.common.Result;
 import com.ldw.entity.Goods;
 import com.ldw.service.GoodsService;
 import com.ldw.service.GoodsimgService;
+import com.ldw.util.RedisUtil;
 import com.ldw.util.ResultVOUtil;
 import com.ldw.vo.ResultVO;
 import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.serializer.StringRedisSerializer;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.annotation.Resource;
 import java.util.List;
 
 /**
@@ -37,6 +38,11 @@ public class GoodsController {
     @Autowired
     private GoodsimgService goodsimgService;
 
+    @Autowired
+    private RedisTemplate redisTemplate;
+
+    @Autowired
+    private RedisUtil redisUtil;
 
     /**
      * 查找热门商品信息列表，不带图片列表
@@ -88,21 +94,51 @@ public class GoodsController {
 
 
     /**
-    查新热卖商品信息带图片列表
+    查新热卖商品信息带图片列表，返回给后台
+     这里写的不好，serviceImpl已经返回了一层Result，这里再套一层，会有2个msg和code
     */
     @GetMapping("/hotGoodsList")
-    public ResultVO list(){
-
-        return ResultVOUtil.success(this.goodsimgService.HotGoodsList());
+    public ResultVO list() {
+      //  Object o = redisTemplate.opsForValue().get("hotGoodsList");
+        Object o=redisUtil.get("hotGoodsList");
+        if (o != null) {
+            return ResultVOUtil.success(o);
+        } else {
+            return ResultVOUtil.success(this.goodsimgService.HotGoodsList());
+        }
     }
 
+    /**
+     * 新热卖商品， 解决前端需要数据处理问题,返回给前台
+     * @return
+     */
+    @GetMapping("/newHotGoodsList")
+    public ResultVO newHotGoodsList(){
+        //这里报错，明明已经写入缓存但是没办法正常读取出来
+        //报错原因是取值的时候没正确的序列化
+        //是序列化Jackson2JsonRedisSerializer 的问题，应改成GenericJackson2JsonRedisSerializer
+      //  redisTemplate.setValueSerializer(new StringRedisSerializer());,会导致全部失效
+     //   Object o = redisTemplate.opsForValue().get("NewHotGoodsList");
+//        Object o=redisUtil.get("NewHotGoodsList");
+//        if (o != null) {
+//            return ResultVOUtil.success(o);
+//        } else {
+            return ResultVOUtil.success(this.goodsimgService.newHotGoodsList());
+//       }
+    }
     /**
      查新商品信息带图片列表
      */
     @GetMapping("/goodsList")
     public ResultVO goodList(){
 
-        return ResultVOUtil.success(this.goodsimgService.GoodsList());
+       // Object o = redisTemplate.opsForValue().get("GoodsList");
+        Object o=redisUtil.get("GoodsList");
+        if (o != null) {
+            return ResultVOUtil.success(o);
+        } else {
+            return ResultVOUtil.success(this.goodsimgService.GoodsList());
+        }
     }
 
     /**
@@ -111,9 +147,27 @@ public class GoodsController {
 
     @GetMapping("/findSlide")
     public ResultVO findSlide() {
-        List<Goods> slideList = this.goodsService.list(new QueryWrapper<Goods>().eq("type_id", 2));
-
-        return ResultVOUtil.success(slideList);
+       // Object o = redisTemplate.opsForValue().get("Slide");
+        Object o=redisUtil.get("Slide");
+        if (o != null) {
+            return ResultVOUtil.success(o);
+        } else {
+            List<Goods> slideList = this.goodsService.list(new QueryWrapper<Goods>().eq("type_id", 2));
+            ResultVO resultVO=new ResultVO<>();
+            resultVO.setData(slideList);
+            redisTemplate.opsForValue().set("Slide",resultVO);
+            return ResultVOUtil.success(slideList);
+        }
     }
+
+
+
 }
+
+
+
+
+
+
+
 

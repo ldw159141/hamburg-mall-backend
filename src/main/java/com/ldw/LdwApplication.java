@@ -12,8 +12,6 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 @SpringBootApplication
 @MapperScan("com.ldw.mapper")
 @EnableSwagger2
-@ComponentScan(basePackages = "com.ldw.controller")
-@ComponentScan(basePackages = "com.ldw.service")
 public class LdwApplication {
 
 	public static void main(String[] args) {

@@ -6,11 +6,15 @@ spring:
     url: jdbc:mysql://localhost:3306/hamburgmall
     username: root
     password: root
+
+  redis:
+    host: 127.0.0.1
+    port: 6379
+    password: 123456
 mybatis-plus:
   configuration:
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
   mapper-locations: com/ldw/mapper/xml/*.xml
-
   mvc:
     path match:
       matching-strategy: ant_path_matcher

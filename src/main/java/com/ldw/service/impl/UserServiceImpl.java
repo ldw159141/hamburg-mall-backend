@@ -42,10 +42,10 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     //   LambdaQueryWrapper<User> userLambdaQueryWrapper = new LambdaQueryWrapper<User>();
     //    userLambdaQueryWrapper.eq(User::getUsername, user.getUsername())
     //           .eq(User::getPassword, user.getPassword()).last("limit 1");
-       QueryWrapper<User> userLambdaQueryWrapper = new QueryWrapper<>();
-        userLambdaQueryWrapper.eq("username", user.getUsername()).eq("password", user.getPassword()).last("limit 1");
+       QueryWrapper<User> userQueryWrapper = new QueryWrapper<>();
+        userQueryWrapper.eq("username", user.getUsername()).eq("password", user.getPassword()).last("limit 1");
 
-        User userInfo = this.userMapper.selectOne(userLambdaQueryWrapper);
+        User userInfo = this.userMapper.selectOne(userQueryWrapper);
 
         if (userInfo != null) {
             String token = JwtUtils.generateTokenByUser(userInfo);
@@ -84,6 +84,12 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         userMapper.insertUser(user);
     }
 
+
+    /**
+     * 用户分页查询，根据username模糊查询
+     * @param userQuery
+     * @return
+     */
     @Override
     public PageVO page(UserQuery userQuery) {
         LambdaQueryWrapper<User> wrapper=new LambdaQueryWrapper<>();

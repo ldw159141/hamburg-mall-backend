@@ -2,6 +2,7 @@ package com.ldw.service;
 
 import com.ldw.entity.Goodsimg;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.ldw.vo.GoodsVO;
 import com.ldw.vo.ResultVO;
 import org.springframework.stereotype.Service;
 
@@ -21,6 +22,8 @@ public interface GoodsimgService extends IService<Goodsimg> {
 
     public ResultVO GoodsList();
 
-    public ResultVO newGoodsList();
+    public ResultVO newHotGoodsList();
+
+    public GoodsVO selectByGoodsId(Integer id);
 
 }

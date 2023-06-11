@@ -21,9 +21,9 @@ import java.util.Map;
  */
 public class JwtUtils {
     /**
-     * token 过期时间, 单位: 秒. 这个值表示 30 天
+     * token 过期时间, 单位: 秒. 这个值表示 1天
      */
-    private static final long TOKEN_EXPIRED_TIME = 30 * 24 * 60 * 60;
+    private static final long TOKEN_EXPIRED_TIME =  24 * 60 * 60;
 
     public static final String jwtId = "tokenId";
 
@@ -97,7 +97,7 @@ public class JwtUtils {
         return createJWT(map, TOKEN_EXPIRED_TIME);
     }
     /**
-     * 根据user
+     * 根据user生成token
      */
     public static String generateTokenByUser(User user) {
         Map<String, Object> map = new HashMap<>();

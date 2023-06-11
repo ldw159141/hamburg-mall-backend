@@ -1,12 +1,14 @@
 package com.ldw.controller;
 
 
+import com.ldw.common.Result;
 import com.ldw.entity.Goodsimg;
 import com.ldw.service.GoodsimgService;
 import com.ldw.util.ResultVOUtil;
 import com.ldw.vo.ResultVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import org.springframework.stereotype.Controller;
@@ -30,11 +32,12 @@ public class GoodsimgController {
     @Autowired
     private GoodsimgService goodsimgService;
 
-    @GetMapping("/hotGoodsList")
-    public ResultVO list(){
+  @GetMapping("/selectByGoodsId/{id}")
+    public Result selectByGoodsId(@PathVariable("id") Integer id){
 
-        return ResultVOUtil.success(this.goodsimgService.HotGoodsList());
-    }
+      return Result.success(goodsimgService.selectByGoodsId(id));
+  }
+
 
 }
 
