@@ -116,7 +116,7 @@ public class GoodsimgServiceImpl extends ServiceImpl<GoodsimgMapper, Goodsimg> i
         ResultVO resultVO=new ResultVO<>();
         resultVO.setData(goodsVOList);
       // redisTemplate.opsForValue().set("NewHotGoodsList",resultVO);
-      //  redisUtil.set("NewHotGoodsList",resultVO);
+    //    redisUtil.set("NewHotGoodsList",resultVO);
         return resultVO;
     }
 
@@ -135,6 +135,7 @@ public class GoodsimgServiceImpl extends ServiceImpl<GoodsimgMapper, Goodsimg> i
             list.add(s);
         }
         goodsVO.setGoodsimg(list);
+     //   redisUtil.set("goods_"+id,goodsVO);
 
         return goodsVO;
     }

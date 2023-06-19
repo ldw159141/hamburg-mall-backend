@@ -22,7 +22,7 @@ public class RedisUtil {
         valueOperations.set(key, value);
 
         //BoundValueOperations的理解对保存的值做一些细微的操作
-//        BoundValueOperations boundValueOperations = redisTemplate.boundValueOps(key);
+        BoundValueOperations boundValueOperations = redisTemplate.boundValueOps(key);
     }
 
     public Object get(String key) {

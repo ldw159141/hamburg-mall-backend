@@ -7,14 +7,17 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.jsontype.impl.LaissezFaireSubTypeValidator;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.connection.lettuce.LettuceConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.serializer.GenericJackson2JsonRedisSerializer;
 import org.springframework.data.redis.serializer.Jackson2JsonRedisSerializer;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
 
 @Configuration
 
 public class RedisConfiguration {
+
 
     /**
      * RedisTemplate配置
@@ -40,5 +43,27 @@ public class RedisConfiguration {
         redisTemplate.afterPropertiesSet();
         return redisTemplate;
     }
+//    /**
+//     * 实例化 RedisTemplate 对象
+//     * @return
+//     */
+//    @Bean
+//    public RedisTemplate<String, Object> functionDomainRedisTemplate(RedisConnectionFactory factory) {
+//        RedisTemplate<String, Object> redisTemplate = new RedisTemplate<>();
+//        StringRedisSerializer stringRedisSerializer = new StringRedisSerializer();
+//        // key 都使用String 序列化方式
+//        redisTemplate.setKeySerializer(stringRedisSerializer);
+//        redisTemplate.setHashKeySerializer(stringRedisSerializer);
+//        GenericJackson2JsonRedisSerializer genericJackson2JsonRedisSerializer = new GenericJackson2JsonRedisSerializer();
+////        Jackson2JsonRedisSerializer<Object> jackson2JsonRedisSerializer = new Jackson2JsonRedisSerializer<>(Object.class);
+//        redisTemplate.setHashValueSerializer(genericJackson2JsonRedisSerializer);
+//        redisTemplate.setValueSerializer(genericJackson2JsonRedisSerializer);
+//        redisTemplate.setConnectionFactory(factory);
+//        return redisTemplate;
+//    }
+
+
+
+
 }
 

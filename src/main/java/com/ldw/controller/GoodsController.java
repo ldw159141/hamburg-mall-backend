@@ -98,7 +98,7 @@ public class GoodsController {
      这里写的不好，serviceImpl已经返回了一层Result，这里再套一层，会有2个msg和code
     */
     @GetMapping("/hotGoodsList")
-    public ResultVO list() {
+    public ResultVO hotGoodsList() {
       //  Object o = redisTemplate.opsForValue().get("hotGoodsList");
         Object o=redisUtil.get("hotGoodsList");
         if (o != null) {
@@ -120,12 +120,11 @@ public class GoodsController {
       //  redisTemplate.setValueSerializer(new StringRedisSerializer());,会导致全部失效
      //   Object o = redisTemplate.opsForValue().get("NewHotGoodsList");
 //        Object o=redisUtil.get("NewHotGoodsList");
-//        if (o != null) {
-//            return ResultVOUtil.success(o);
-//        } else {
-            return ResultVOUtil.success(this.goodsimgService.newHotGoodsList());
-//       }
-    }
+//       if (o != null) {
+//           return ResultVOUtil.success(o);
+//       } else {
+            return ResultVOUtil.success(this.goodsimgService.newHotGoodsList());}
+//    }
     /**
      查新商品信息带图片列表
      */

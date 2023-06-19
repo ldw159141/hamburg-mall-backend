@@ -4,6 +4,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.HashMap;
+
 /**
  * @author HP刘德伟
  */
@@ -21,6 +23,12 @@ public class Result<T> {
     public static Result success(Object data){
         return new Result(200,"操作成功",data);
     }
+    public static Result success(HashMap<Object, Object> mapBack, String msg) {
+        return new Result(200,msg,mapBack);
+    }
+    public static Result success(String msg){
+        return new Result(200,msg,null);
+    }
     public static Result error(String msg){
         return new Result(500,msg,null);
     }
@@ -30,4 +38,7 @@ public class Result<T> {
     public static Result error(){
         return new Result(500,"系统错误,请联系管理员15914165802",null);
     }
+
+
+
 }
