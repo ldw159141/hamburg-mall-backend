@@ -1,8 +1,11 @@
 package com.ldw.filter;
 
 import com.alibaba.fastjson.JSON;
+import com.ldw.service.RoleService;
+import com.ldw.service.UserService;
 import com.ldw.util.JwtUtils;
 import io.jsonwebtoken.Claims;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -27,7 +30,11 @@ public class TokenVerifyFilter extends BasicAuthenticationFilter {
         super(authenticationManager);
     }
 
+    @Autowired
+    private UserService userService;
 
+    @Autowired
+    private RoleService roleService;
 
     /**
      * 校验提交的token是否合法
@@ -57,8 +64,17 @@ public class TokenVerifyFilter extends BasicAuthenticationFilter {
 
 
             //合法就获取登录账号的username
-            String username = (String) claims.get("username");
+            String username=claims.get("username").toString();
+         //   List<GrantedAuthority> listRole = (List<GrantedAuthority>) claims.get("listRole");
+
+        //    System.out.println(username);
+            //    String username = (String) claims.get("username");
             //TODO 放过请求 后续操作要权限
+            //这里没办法通过service获取user对象
+//            User user = userService.selectByUsername(username);
+//                Role role=roleService.selectByUserRoleId(user.getRoleId());
+//                List<GrantedAuthority> listRole = new ArrayList<>();
+//                listRole.add(new SimpleGrantedAuthority(role.getName()));
             //TODO 根须账号获取相关权限
             UsernamePasswordAuthenticationToken authenticationToken=new UsernamePasswordAuthenticationToken(username,"",null);
             SecurityContextHolder.getContext().setAuthentication(authenticationToken);

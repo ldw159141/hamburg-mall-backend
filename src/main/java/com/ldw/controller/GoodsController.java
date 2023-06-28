@@ -3,6 +3,7 @@ package com.ldw.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.ldw.common.Result;
+import com.ldw.dto.GoodsQuery;
 import com.ldw.entity.Goods;
 import com.ldw.service.GoodsService;
 import com.ldw.service.GoodsimgService;
@@ -12,11 +13,7 @@ import com.ldw.vo.ResultVO;
 import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.data.redis.serializer.StringRedisSerializer;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -160,7 +157,39 @@ public class GoodsController {
     }
 
 
+    /**
+     * 根据title分页查询goods信息
+     * @param goodsQuery
+     * @return
+     */
+    @PostMapping("/page")
 
+    public Result findPage(@RequestBody GoodsQuery goodsQuery){
+        return Result.success(goodsService.page(goodsQuery));
+    }
+
+
+    /**
+     * 根据是否有id增加商品信息
+     * @param goods
+     * @return
+     */
+    @PostMapping("/save")
+    public Result save(@RequestBody Goods goods){
+       goodsService.saveOrUpdate(goods);
+
+        if (goods.getTypeId()==2){
+            redisUtil.delete("Slide");
+        }else if (goods.getTypeId()==3){
+            redisUtil.delete("GoodsList");
+        }
+//        else{
+//            redisUtil.delete("Slide");
+//            redisUtil.delete("GoodsList");
+//        }
+
+        return Result.success();
+    }
 }
 
 

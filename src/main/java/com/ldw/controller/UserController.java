@@ -11,6 +11,7 @@ import com.ldw.vo.ResultVO;
 import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -61,6 +62,7 @@ public class UserController {
      * @return
      */
     @PostMapping("/page")
+   // @PreAuthorize("hasAnyRole('ADMIN')")
     public Result findPage(@RequestBody UserQuery userQuery){
         return Result.success( this.userService.page(userQuery));
     }

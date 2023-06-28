@@ -1,6 +1,7 @@
 package com.ldw.entity;
 
 import java.math.BigDecimal;
+import com.baomidou.mybatisplus.annotation.FieldStrategy;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableField;
@@ -62,8 +63,12 @@ import lombok.EqualsAndHashCode;
       private String url;
 
       /**
+       * 允许传入空值
      * 类目id
      */
+
+
+      @TableField(updateStrategy = FieldStrategy.IGNORED)
       private Integer typeId;
 
 

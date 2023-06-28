@@ -47,6 +47,7 @@ public class SpringSecurityConfiguration extends WebSecurityConfigurerAdapter {
         web.ignoring().antMatchers("/goods/**","/goodsimg/**")//方法白名单
                 .antMatchers("/doc.html", "/doc.html/**", "/webjars/**", "/v2/**", "/v3/**",
                         "/swagger-ui.html", "/swagger-resources", "/swagger-resources/**", "/swagger-ui.html/**")//doc和swagger白名单
+         //       .antMatchers("/uploads","/views")
                 .antMatchers("/image/**");//静态资源白名单
     }
 
@@ -84,5 +85,8 @@ public class SpringSecurityConfiguration extends WebSecurityConfigurerAdapter {
         return source;
     }
 
+    public static void main(String[] args) {
+        System.out.println(new BCryptPasswordEncoder().encode("ldw"));
+    }
 
 }

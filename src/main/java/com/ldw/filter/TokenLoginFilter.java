@@ -2,13 +2,21 @@ package com.ldw.filter;
 
 import com.alibaba.fastjson.JSON;
 import com.ldw.common.Result;
+import com.ldw.entity.Role;
 import com.ldw.entity.User;
+import com.ldw.service.RoleService;
+import com.ldw.service.UserService;
 import com.ldw.util.JwtUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.stereotype.Component;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
@@ -18,17 +26,24 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
  *
  * @author HP刘德伟
  */
+
 public class TokenLoginFilter extends UsernamePasswordAuthenticationFilter{
 
-
-
+//
+//    @Autowired
+//    private UserService userService;
+//
+//    @Autowired
+//    private RoleService roleService;
     private AuthenticationManager authenticationManager;
 
     public TokenLoginFilter(AuthenticationManager authenticationManager){
@@ -87,7 +102,12 @@ public class TokenLoginFilter extends UsernamePasswordAuthenticationFilter{
         //生成Token信息
         Map<String,Object> map=new HashMap<>();
         map.put("username",authResult.getName());
-        // TODO 还可以在这加角色,先不加
+//                    User user = userService.selectByUsername(authResult.getName());
+//                Role role=roleService.selectByUserRoleId(user.getRoleId());
+//                List<GrantedAuthority> listRole = new ArrayList<>();
+//                listRole.add(new SimpleGrantedAuthority(role.getName()));
+//                map.put("listRole",listRole);
+        //TODO 还可以在这加角色,先不加
         String token=JwtUtils.getTokenByMap(map);
         //把生产的token信息返回给客户端
         response.addHeader("Authorization","ldw"+token);
