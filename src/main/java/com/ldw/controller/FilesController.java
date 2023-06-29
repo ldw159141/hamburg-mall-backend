@@ -38,8 +38,6 @@ public class FilesController {
 
     @PostMapping("/uploads")
     public Result uploads(@RequestParam MultipartFile file) throws IOException {
-
-
         //获取文件类型 image/png
         String contentType = file.getContentType();
         //图片格式
@@ -53,9 +51,6 @@ public class FilesController {
         if (!listType.contains(contentType)){
             throw new CustomException("图片只允许png,jpg,jpeg格式，视频只允许mp4格式");
         }
-
-
-
         InputStream inputStream = file.getInputStream();
         //生成文件名 uuid
         String uuid = UUID.randomUUID().toString();
@@ -71,7 +66,6 @@ public class FilesController {
         if (!folder.exists()) {
             folder.mkdirs();
         }
-
         //写入到服务器
         int len = 0;
         FileOutputStream fileOutputStream = new FileOutputStream(absolutePath);

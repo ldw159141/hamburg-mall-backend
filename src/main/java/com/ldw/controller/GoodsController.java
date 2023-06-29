@@ -13,8 +13,12 @@ import com.ldw.vo.ResultVO;
 import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
-
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 /**
@@ -25,6 +29,7 @@ import java.util.List;
  * @author liudewei
  * @since 2023-03-28
  */
+@Transactional
 @Api(value = "测试模块",tags = "测试模块")
 @RestController
 @RequestMapping("/goods")
@@ -176,18 +181,17 @@ public class GoodsController {
      */
     @PostMapping("/save")
     public Result save(@RequestBody Goods goods){
-       goodsService.saveOrUpdate(goods);
 
-        if (goods.getTypeId()==2){
+        if(goods.getTypeId()==null){
+            goodsService.saveOrUpdate(goods);
+            return Result.success();
+        } else if (goods.getTypeId()==2){
             redisUtil.delete("Slide");
         }else if (goods.getTypeId()==3){
             redisUtil.delete("GoodsList");
         }
-//        else{
-//            redisUtil.delete("Slide");
-//            redisUtil.delete("GoodsList");
-//        }
 
+        goodsService.saveOrUpdate(goods);
         return Result.success();
     }
 }

@@ -43,8 +43,9 @@ public class DumpSQLService {
         String dataFile = path + fileName;
         System.out.println(dataFile);
         //拼接备份的cmd命令
-        String cmd="cmd /c mysqldump -h" + host + " -P" + port + " -u " + username + " -p" + password + " " + dbName + " > " + dataFile;
-
+        //String cmd="cmd /c mysqldump -h" + host + " -P" + port + " -u" + username + " -p" + password + " " + dbName + " > " + dataFile;
+        String cmd="cmd /c "+"D:\\phpstudy_pro\\Extensions\\MySQL8.0.12\\bin\\mysqldump -h" + host + " -P" + port + " -u " + username + " -p" + password + " " + dbName + " > " + dataFile;
+        System.out.println(cmd);
         try{
             Process exec = Runtime.getRuntime().exec(cmd);
             System.out.println(exec.toString());
@@ -60,7 +61,7 @@ public class DumpSQLService {
      * @throws Exception
      */
 
-//    @Scheduled(cron = "0 * * * * *")//每分钟发送
+ //  @Scheduled(cron = "0 * * * * *")//每分钟发送
 
      @Scheduled(cron ="30 10 1 * * ?")//每天1点10分30秒触发任务,运行的情况下
     public void dump() throws Exception {

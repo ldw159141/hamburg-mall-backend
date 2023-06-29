@@ -35,11 +35,6 @@ import lombok.EqualsAndHashCode;
       /**
      * 市
      */
-      private String provincial;
-
-      /**
-     * 市
-     */
       private String city;
 
       /**

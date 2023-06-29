@@ -1,13 +1,14 @@
 package com.ldw.entity;
 
-import java.math.BigDecimal;
 import com.baomidou.mybatisplus.annotation.FieldStrategy;
 import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableField;
-import java.io.Serializable;
+import com.baomidou.mybatisplus.annotation.TableId;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+
+import java.io.Serializable;
+import java.math.BigDecimal;
 
 /**
  * <p>
@@ -68,7 +69,7 @@ import lombok.EqualsAndHashCode;
      */
 
 
-      @TableField(updateStrategy = FieldStrategy.IGNORED)
+      @TableField(updateStrategy = FieldStrategy.IGNORED,insertStrategy = FieldStrategy.IGNORED)
       private Integer typeId;
 
 

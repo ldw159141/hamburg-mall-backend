@@ -1,6 +1,7 @@
 package com.ldw.filter;
 
 import com.alibaba.fastjson.JSON;
+import com.ldw.entity.User;
 import com.ldw.service.RoleService;
 import com.ldw.service.UserService;
 import com.ldw.util.JwtUtils;
@@ -72,6 +73,7 @@ public class TokenVerifyFilter extends BasicAuthenticationFilter {
             //TODO 放过请求 后续操作要权限
             //这里没办法通过service获取user对象
 //            User user = userService.selectByUsername(username);
+//            System.out.println(user);
 //                Role role=roleService.selectByUserRoleId(user.getRoleId());
 //                List<GrantedAuthority> listRole = new ArrayList<>();
 //                listRole.add(new SimpleGrantedAuthority(role.getName()));
