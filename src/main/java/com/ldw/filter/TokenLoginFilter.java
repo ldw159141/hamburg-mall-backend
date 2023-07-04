@@ -8,9 +8,13 @@ import com.ldw.service.RoleService;
 import com.ldw.service.UserService;
 import com.ldw.util.JwtUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.config.BeanIds;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.GrantedAuthority;
@@ -18,6 +22,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.stereotype.Component;
 
+import javax.annotation.Resource;
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -36,15 +41,19 @@ import java.util.Map;
  * @author HP刘德伟
  */
 
+
 public class TokenLoginFilter extends UsernamePasswordAuthenticationFilter{
 
-//
-//    @Autowired
-//    private UserService userService;
-//
-//    @Autowired
-//    private RoleService roleService;
-    private AuthenticationManager authenticationManager;
+
+    @Resource
+    private UserService userService;
+
+    @Resource
+    private RoleService roleService;
+
+
+
+    protected AuthenticationManager authenticationManager;
 
     public TokenLoginFilter(AuthenticationManager authenticationManager){
         this.authenticationManager=authenticationManager;
@@ -99,14 +108,17 @@ public class TokenLoginFilter extends UsernamePasswordAuthenticationFilter{
     @Override
     protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain
             , Authentication authResult) throws IOException, ServletException {
+//        String username=authResult.getName().toString();
+//        User user = userService.selectByUsername(username);
+//        Role role=roleService.selectByUserRoleId(user.getRoleId());
+//        List<GrantedAuthority> listRole = new ArrayList<>();
+//        listRole.add(new SimpleGrantedAuthority(role.getName()));
+      //  System.out.println(authResult.getAuthorities().toString());
+
         //生成Token信息
         Map<String,Object> map=new HashMap<>();
         map.put("username",authResult.getName());
-//                    User user = userService.selectByUsername(authResult.getName());
-//                Role role=roleService.selectByUserRoleId(user.getRoleId());
-//                List<GrantedAuthority> listRole = new ArrayList<>();
-//                listRole.add(new SimpleGrantedAuthority(role.getName()));
-//                map.put("listRole",listRole);
+        map.put("listRole",authResult.getAuthorities().toString());
         //TODO 还可以在这加角色,先不加
         String token=JwtUtils.getTokenByMap(map);
         //把生产的token信息返回给客户端

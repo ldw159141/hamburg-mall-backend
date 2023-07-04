@@ -56,7 +56,7 @@ public class SpringSecurityConfiguration extends WebSecurityConfigurerAdapter {
        http
                .csrf().disable()
                .authorizeRequests()
-              // .antMatchers("/user/**").hasRole("ADMIN")//只有ADMIN能操作接口下的请求
+               .antMatchers("/user/**").hasRole("ADMIN")//只有ADMIN能操作接口下的请求
 
 //               .antMatchers("/image/**").permitAll
                //因为自定义了过滤器，如果要白名单绕开就重写configure(WebSecurity web)
