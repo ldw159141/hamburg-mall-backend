@@ -1,36 +1,25 @@
 package com.ldw.filter;
 
 import com.alibaba.fastjson.JSON;
-import com.ldw.entity.User;
-import com.ldw.service.RoleService;
-import com.ldw.service.UserService;
 import com.ldw.util.JwtUtils;
 import io.jsonwebtoken.Claims;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.web.servlet.FilterRegistrationBean;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.context.support.AbstractApplicationContext;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.config.BeanIds;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
-import org.springframework.stereotype.Component;
-import org.springframework.web.context.WebApplicationContext;
-import org.springframework.web.context.support.WebApplicationContextUtils;
 
 import javax.servlet.FilterChain;
-import javax.servlet.FilterConfig;
-import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * @author HP刘德伟
@@ -45,8 +34,7 @@ public class TokenVerifyFilter extends BasicAuthenticationFilter {
 //    }
 //
 //
-//    @Autowired
-//    protected AuthenticationManager authenticationManager;
+
 
     public TokenVerifyFilter(AuthenticationManager authenticationManager) {
         super(authenticationManager);
@@ -56,11 +44,7 @@ public class TokenVerifyFilter extends BasicAuthenticationFilter {
 
 
 
-//    @Autowired
-//   private UserService userService;
-//
-//    @Autowired
-//   private RoleService roleService;
+
 
 
 
@@ -101,8 +85,6 @@ public class TokenVerifyFilter extends BasicAuthenticationFilter {
             //    System.out.println(username);
             //    String username = (String) claims.get("username");
             //TODO 放过请求 后续操作要权限
-
-
             //这里没办法通过service获取user对象
 //            User user = userService.selectByUsername(username);
 //            System.out.println(user);
@@ -131,7 +113,7 @@ public class TokenVerifyFilter extends BasicAuthenticationFilter {
         PrintWriter writer= response.getWriter();
         Map<String,Object> result=new HashMap<>();
         result.put("code",HttpServletResponse.SC_FORBIDDEN);
-        result.put("msg","请先登录");
+        result.put("msg","权限不足");
         writer.write(JSON.toJSONString(result));
         writer.flush();
         writer.close();

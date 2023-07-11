@@ -10,7 +10,7 @@ spring:
 logging:
   file:
     name: mylogs.log
-    path: D:/报错日志
+    path: D:/报错日志/
 
 mybatis-plus:
   configuration:

@@ -77,13 +77,12 @@ public class GoodsimgServiceImpl extends ServiceImpl<GoodsimgMapper, Goodsimg> i
         for (Goods goods:goodsList){
             GoodsVO goodsVO =new GoodsVO();
             BeanUtils.copyProperties(goods, goodsVO);
-//            hotGoodsVO.setGoodsimg(this.goodsimgMapper.findUrl(goods.getId()));
             goodsVO.setGoodsimg(this.goodsimgMapper.selectList(new QueryWrapper<Goodsimg>().eq("goods_id",goods.getId())));
             goodsVOList.add(goodsVO);
         }
         ResultVO resultVO=new ResultVO<>();
         resultVO.setData(goodsVOList);
-     //  redisTemplate.opsForValue().set("GoodsList",resultVO);
+
         redisUtil.set("GoodsList",resultVO);
         return resultVO;
     }
@@ -121,6 +120,23 @@ public class GoodsimgServiceImpl extends ServiceImpl<GoodsimgMapper, Goodsimg> i
     }
 
     @Override
+    public ResultVO PizzaList() {
+        List<Goods> goodsList = this.goodsMapper.selectList(new QueryWrapper<Goods>().eq("type_id", 4));
+        List<GoodsVO> goodsVOList =new ArrayList<>();
+        for (Goods goods:goodsList){
+            GoodsVO goodsVO =new GoodsVO();
+            BeanUtils.copyProperties(goods, goodsVO);
+            goodsVO.setGoodsimg(this.goodsimgMapper.selectList(new QueryWrapper<Goodsimg>().eq("goods_id",goods.getId())));
+            goodsVOList.add(goodsVO);
+        }
+        ResultVO resultVO=new ResultVO<>();
+        resultVO.setData(goodsVOList);
+
+        redisUtil.set("PizzaList",resultVO);
+        return resultVO;
+    }
+
+    @Override
     public GoodsVO selectByGoodsId(Integer id) {
         Goods goods=this.goodsMapper.selectById(id);
         GoodsVO goodsVO =new GoodsVO();
@@ -135,7 +151,7 @@ public class GoodsimgServiceImpl extends ServiceImpl<GoodsimgMapper, Goodsimg> i
             list.add(s);
         }
         goodsVO.setGoodsimg(list);
-     //   redisUtil.set("goods_"+id,goodsVO);
+
 
         return goodsVO;
     }

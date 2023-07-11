@@ -24,6 +24,8 @@ public interface GoodsimgService extends IService<Goodsimg> {
 
     public ResultVO newHotGoodsList();
 
+    public ResultVO PizzaList();
+
     public GoodsVO selectByGoodsId(Integer id);
 
 }

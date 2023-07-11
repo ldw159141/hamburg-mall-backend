@@ -30,7 +30,7 @@ import java.util.List;
  * @since 2023-03-28
  */
 @Transactional
-@Api(value = "测试模块",tags = "测试模块")
+@Api(value = "商品模块",tags = "商品模块")
 @RestController
 @RequestMapping("/goods")
 public class GoodsController {
@@ -142,6 +142,18 @@ public class GoodsController {
         }
     }
 
+    @GetMapping("/pizzaList")
+    public ResultVO PizzaList(){
+
+        // Object o = redisTemplate.opsForValue().get("GoodsList");
+        Object o=redisUtil.get("PizzaList");
+        if (o != null) {
+            return ResultVOUtil.success(o);
+        } else {
+            return ResultVOUtil.success(this.goodsimgService.PizzaList());
+        }
+    }
+
     /**
      查新轮播图片列表
      */
@@ -192,6 +204,25 @@ public class GoodsController {
         }
 
         goodsService.saveOrUpdate(goods);
+        return Result.success();
+    }
+
+
+    /**
+     * 根据ids批量删除
+     * @param ids
+     * @return
+     */
+    @PostMapping("/delete")
+    public  Result delete(@RequestBody List<Integer> ids){
+
+        for (Integer id:ids){
+            //   redisTemplate.delete("user_"+id);
+            redisUtil.delete("goods_"+id);
+            System.out.println(id);
+        }
+        goodsService.removeByIds(ids);
+
         return Result.success();
     }
 }

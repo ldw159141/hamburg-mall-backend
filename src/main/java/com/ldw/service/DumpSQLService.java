@@ -61,8 +61,7 @@ public class DumpSQLService {
      * @throws Exception
      */
 
- //  @Scheduled(cron = "0 * * * * *")//每分钟发送
-
+    //@Scheduled(cron = "0 * * * * *")//每分钟发送
      @Scheduled(cron ="30 10 1 * * ?")//每天1点10分30秒触发任务,运行的情况下
     public void dump() throws Exception {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd-hh-mm-ss");

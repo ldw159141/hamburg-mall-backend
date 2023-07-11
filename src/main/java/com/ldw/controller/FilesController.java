@@ -5,10 +5,7 @@ import cn.hutool.core.io.FileUtil;
 import com.ldw.common.Result;
 import com.ldw.exception.CustomException;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.ServletOutputStream;
@@ -85,8 +82,13 @@ public class FilesController {
 
     @GetMapping("/views")
     public void views(@RequestParam String fileName, HttpServletResponse response) throws IOException {
+       // System.out.println(fileName);
+//        String str =fileName;
+//        String str1 = str.substring( 0,str.length() - 1);
+//        String[] split = str1.split("/");
         String[] split = fileName.split("/");
         String name = split[split.length - 1];
+        //System.out.println(name);
         File file = new File(filesUploadPath + name);
         //社渚输出流格式
         ServletOutputStream outputStream = response.getOutputStream();
@@ -98,6 +100,7 @@ public class FilesController {
         outputStream.write(FileUtil.readBytes(file));
         outputStream.flush();
         outputStream.close();
+
 
     }
 
