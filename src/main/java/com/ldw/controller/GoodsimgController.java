@@ -4,6 +4,7 @@ package com.ldw.controller;
 import com.ldw.common.Result;
 import com.ldw.entity.Goodsimg;
 import com.ldw.service.GoodsimgService;
+import com.ldw.util.RedisUtil;
 import com.ldw.util.ResultVOUtil;
 import com.ldw.vo.ResultVO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,10 +33,17 @@ public class GoodsimgController {
     @Autowired
     private GoodsimgService goodsimgService;
 
+    @Autowired
+    private RedisUtil redisUtil;
   @GetMapping("/selectByGoodsId/{id}")
     public Result selectByGoodsId(@PathVariable("id") Integer id){
+//      Object o=redisUtil.get("goods_"+id);//出不来数据，估计是反序列化失败
+//      if (o != null) {
+//          return Result.success(o);
+//      } else {
 
-      return Result.success(goodsimgService.selectByGoodsId(id));
+          return Result.success(goodsimgService.selectByGoodsId(id));
+    //  }
   }
 
 

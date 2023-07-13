@@ -27,4 +27,8 @@ public interface UserService extends IService<User> {
 
     void insertUser(User user);
     public PageVO page(UserQuery userQuery);
+
+    public User selectByUsername(String username);
+
+
 }

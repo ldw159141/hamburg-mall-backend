@@ -3,6 +3,7 @@ package com.ldw.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.ldw.common.Result;
+import com.ldw.dto.GoodsQuery;
 import com.ldw.entity.Goods;
 import com.ldw.service.GoodsService;
 import com.ldw.service.GoodsimgService;
@@ -12,12 +13,12 @@ import com.ldw.vo.ResultVO;
 import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.data.redis.serializer.StringRedisSerializer;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
 import java.util.List;
 
 /**
@@ -28,7 +29,8 @@ import java.util.List;
  * @author liudewei
  * @since 2023-03-28
  */
-@Api(value = "测试模块",tags = "测试模块")
+@Transactional
+@Api(value = "商品模块",tags = "商品模块")
 @RestController
 @RequestMapping("/goods")
 public class GoodsController {
@@ -98,7 +100,7 @@ public class GoodsController {
      这里写的不好，serviceImpl已经返回了一层Result，这里再套一层，会有2个msg和code
     */
     @GetMapping("/hotGoodsList")
-    public ResultVO list() {
+    public ResultVO hotGoodsList() {
       //  Object o = redisTemplate.opsForValue().get("hotGoodsList");
         Object o=redisUtil.get("hotGoodsList");
         if (o != null) {
@@ -120,12 +122,11 @@ public class GoodsController {
       //  redisTemplate.setValueSerializer(new StringRedisSerializer());,会导致全部失效
      //   Object o = redisTemplate.opsForValue().get("NewHotGoodsList");
 //        Object o=redisUtil.get("NewHotGoodsList");
-//        if (o != null) {
-//            return ResultVOUtil.success(o);
-//        } else {
-            return ResultVOUtil.success(this.goodsimgService.newHotGoodsList());
-//       }
-    }
+//       if (o != null) {
+//           return ResultVOUtil.success(o);
+//       } else {
+            return ResultVOUtil.success(this.goodsimgService.newHotGoodsList());}
+//    }
     /**
      查新商品信息带图片列表
      */
@@ -138,6 +139,18 @@ public class GoodsController {
             return ResultVOUtil.success(o);
         } else {
             return ResultVOUtil.success(this.goodsimgService.GoodsList());
+        }
+    }
+
+    @GetMapping("/pizzaList")
+    public ResultVO PizzaList(){
+
+        // Object o = redisTemplate.opsForValue().get("GoodsList");
+        Object o=redisUtil.get("PizzaList");
+        if (o != null) {
+            return ResultVOUtil.success(o);
+        } else {
+            return ResultVOUtil.success(this.goodsimgService.PizzaList());
         }
     }
 
@@ -161,7 +174,57 @@ public class GoodsController {
     }
 
 
+    /**
+     * 根据title分页查询goods信息
+     * @param goodsQuery
+     * @return
+     */
+    @PostMapping("/page")
 
+    public Result findPage(@RequestBody GoodsQuery goodsQuery){
+        return Result.success(goodsService.page(goodsQuery));
+    }
+
+
+    /**
+     * 根据是否有id增加商品信息
+     * @param goods
+     * @return
+     */
+    @PostMapping("/save")
+    public Result save(@RequestBody Goods goods){
+
+        if(goods.getTypeId()==null){
+            goodsService.saveOrUpdate(goods);
+            return Result.success();
+        } else if (goods.getTypeId()==2){
+            redisUtil.delete("Slide");
+        }else if (goods.getTypeId()==3){
+            redisUtil.delete("GoodsList");
+        }
+
+        goodsService.saveOrUpdate(goods);
+        return Result.success();
+    }
+
+
+    /**
+     * 根据ids批量删除
+     * @param ids
+     * @return
+     */
+    @PostMapping("/delete")
+    public  Result delete(@RequestBody List<Integer> ids){
+
+        for (Integer id:ids){
+            //   redisTemplate.delete("user_"+id);
+            redisUtil.delete("goods_"+id);
+            System.out.println(id);
+        }
+        goodsService.removeByIds(ids);
+
+        return Result.success();
+    }
 }
 
 

@@ -74,6 +74,7 @@ public class JwtUtils {
 
     }
 
+
     /**
      * 由字符串生成加密key
      *
@@ -81,21 +82,14 @@ public class JwtUtils {
      */
     public static SecretKey generalKey() {
         String stringKey = JWT_SECRET;
-        byte[] encodedKey = Base64.getEncoder().encode(JWT_SECRET.getBytes());
+        byte[] encodedKey = Base64.getEncoder().encode(stringKey.getBytes());
         SecretKey key = new SecretKeySpec(encodedKey, 0, encodedKey.length, "AES");
         return key;
     }
 
-    /**
-     * 根据userId和openid生成token
-     */
-    public static String generateToken(String openId, Integer userId) {
-        Map<String, Object> map = new HashMap<>();
-        map.put("userId", userId);
-        map.put("openId", openId);
-        map.put("sub", openId);
-        return createJWT(map, TOKEN_EXPIRED_TIME);
-    }
+
+
+
     /**
      * 根据user生成token
      */
@@ -106,6 +100,13 @@ public class JwtUtils {
         map.put("password", user.getPassword());
         map.put("roleId",user.getRoleId());
         return createJWT(map, TOKEN_EXPIRED_TIME);
+    }
+
+    /**
+     * 根据自定义map生成token
+     */
+    public static String getTokenByMap(Map<String,Object> map){
+        return createJWT(map,TOKEN_EXPIRED_TIME);
     }
 
 

@@ -43,5 +43,6 @@ class UserControllerTest {
 
     @Test
     void save() {
+        userService.selectByUsername("123");
     }
 }

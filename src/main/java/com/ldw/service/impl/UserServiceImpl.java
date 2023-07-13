@@ -15,9 +15,13 @@ import com.ldw.util.ResultVOUtil;
 import com.ldw.vo.PageVO;
 import com.ldw.vo.ResultVO;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
+import java.util.Objects;
 
 /**
  * <p>
@@ -32,8 +36,10 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     @Autowired
     private UserMapper userMapper;
 
+
     /**
      * 登录，返回tokenId，username，roleId，然后通过枚举前端返回roleName
+     * 加入spring Security之后不再使用此登录
      * @param user
      * @return
      */
@@ -49,11 +55,11 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
 
         if (userInfo != null) {
             String token = JwtUtils.generateTokenByUser(userInfo);
-
             HashMap<Object, Object> map = new HashMap<>();
             map.put("token",token);
             map.put("username",userInfo.getUsername());
             map.put("roleId",userInfo.getRoleId());
+
           return ResultVOUtil.successSetMsg(map,"登录成功",200);
           //  return Result.success(map);
         } else {
@@ -64,6 +70,8 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
 
 
     }
+
+
 
     /**
      * 修改用户
@@ -107,5 +115,21 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         );
         return new PageVO(page);
     }
+
+    /**
+     * 根据传过来的username查询用户
+     * @param username
+     * @return
+     */
+    @Override
+    public User selectByUsername(String username) {
+        LambdaQueryWrapper<User> wrapper=new LambdaQueryWrapper<>();
+            wrapper.eq(User::getUsername, username)
+                  .last("limit 1");
+            User user=this.userMapper.selectOne(wrapper);
+        return user;
+    }
+
+
 }
 
